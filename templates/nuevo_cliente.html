@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form action="{{ action_url }}" method="post">
+        <div class="t-container" id="t-principal">
+            <ul class="t-tabs">
+                <li class="t-tab">Información</li>
+                <li class="t-tab">Productos</li>
+                <li class="t-tab">Licencias</li>
+                <li class="t-tab">Credenciales</li>
+            </ul>
+            <ul class="t-contents">
+                <li class="t-content">
+                    <h2>Información</h2>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre if cliente else '' }}" required>
+                    <label for="contacto">Contacto:</label>
+                    <input type="text" id="contacto" name="contacto" value="{{ cliente.contacto if cliente else '' }}">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ cliente.email if cliente else '' }}">
+                    <label for="servidor_id">Servidor:</label>
+                    <select id="servidor_id" name="servidor_id">
+                        {% for servidor in servidores %}
+                            <option value="{{ servidor.id }}" {% if cliente and servidor.id == cliente.servidor_id %}selected{% endif %}>{{ servidor.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="t-content">
+                    <h2>Productos</h2>
+                    <table id="productos-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Versión</th>
+                                <th>Cantidad</th>
+                                <th>Fecha de Compra</th>
+                                <th>Fecha de Vencimiento</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productos">
+                            {% if cliente_productos %}
+                                {% for cliente_producto in cliente_productos %}
+                                <tr>
+                                    <td>
+                                        <select name="producto_id[]">
+                                            {% for producto in productos %}
+                                                <option value="{{ producto.id }}" {% if producto.id == cliente_producto.producto_id %}selected{% endif %}>{{ producto.nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="version[]" value="{{ cliente_producto.version }}"></td>
+                                    <td><input type="number" name="cantidad[]" value="{{ cliente_producto.cantidad }}"></td>
+                                    <td><input type="date" name="fecha_compra[]" value="{{ cliente_producto.fecha_compra }}"></td>
+                                    <td><input type="date" name="fecha_vencimiento[]" value="{{ cliente_producto.fecha_vencimiento }}"></td>
+                                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        <select name="producto_id[]">
+                                            {% for producto in productos %}
+                                                <option value="{{ producto.id }}">{{ producto.nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="version[]"></td>
+                                    <td><input type="number" name="cantidad[]"></td>
+                                    <td><input type="date" name="fecha_compra[]"></td>
+                                    <td><input type="date" name="fecha_vencimiento[]"></td>
+                                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="agregarProducto()">Agregar Producto</button>
+                </li>
+                <li class="t-content">
+                    <h2>Licencias</h2>
+                    <table id="licencias-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Puerto</th>
+                                <th>Usuario</th>
+                                <th>Clave</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="licencias">
+                            {% if cliente_licencias %}
+                                {% for cliente_licencia in cliente_licencias %}
+                                <tr>
+                                    <td><input type="text" name="producto_licencia[]" value="{{ cliente_licencia.producto }}"></td>
+                                    <td><input type="text" name="puerto[]" value="{{ cliente_licencia.puerto }}"></td>
+                                    <td><input type="text" name="usuario[]" value="{{ cliente_licencia.usuario }}"></td>
+                                    <td><input type="text" name="clave[]" value="{{ cliente_licencia.clave }}"></td>
+                                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td><input type="text" name="producto_licencia[]"></td>
+                                    <td><input type="text" name="puerto[]"></td>
+                                    <td><input type="text" name="usuario[]"></td>
+                                    <td><input type="text" name="clave[]"></td>
+                                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="agregarLicencia()">Agregar Licencia</button>
+                </li>
+                <li class="t-content">
+                    <h2>Credenciales</h2>
+                    <table id="credenciales-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Usuario</th>
+                                <th>Clave</th>
+                                <th>Email</th>
+                                <th>Producto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="credenciales">
+                            {% if cliente_credenciales %}
+                                {% for cliente_credencial in cliente_credenciales %}
+                                <tr>
+                                    <td><input type="text" name="nombre_credencial[]" value="{{ cliente_credencial.nombre }}"></td>
+                                    <td><input type="text" name="apellido[]" value="{{ cliente_credencial.apellido }}"></td>
+                                    <td><input type="text" name="usuario_credencial[]" value="{{ cliente_credencial.usuario }}"></td>
+                                    <td><input type="text" name="clave_credencial[]" value="{{ cliente_credencial.clave }}"></td>
+                                    <td><input type="email" name="email_credencial[]" value="{{ cliente_credencial.email }}"></td>
+                                    <td><input type="text" name="producto_credencial[]" value="{{ cliente_credencial.producto }}"></td>
+                                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td><input type="text" name="nombre_credencial[]"></td>
+                                    <td><input type="text" name="apellido[]"></td>
+                                    <td><input type="text" name="usuario_credencial[]"></td>
+                                    <td><input type="text" name="clave_credencial[]"></td>
+                                    <td><input type="email" name="email_credencial[]"></td>
+                                    <td><input type="text" name="producto_credencial[]"></td>
+                                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="agregarCredencial()">Agregar Credencial</button>
+                </li>
+            </ul>
+        </div>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+        function agregarProducto() {
+            const productosTable = document.getElementById('productos');
+            const newRow = productosTable.rows[0].cloneNode(true);
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            productosTable.appendChild(newRow);
+        }
+
+        function agregarLicencia() {
+            const licenciasTable = document.getElementById('licencias');
+            const newRow = licenciasTable.rows[0].cloneNode(true);
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            licenciasTable.appendChild(newRow);
+        }
+
+        function agregarCredencial() {
+            const credencialesTable = document.getElementById('credenciales');
+            const newRow = credencialesTable.rows[0].cloneNode(true);
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            credencialesTable.appendChild(newRow);
+        }
+
+        function eliminarFila(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            easyTabs();
+        });
+    </script>
+{% endblock %}

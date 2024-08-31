@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Producto</h1>
+<form action="{{ url_for('producto_bp.editar_producto', id=producto.id) }}" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ producto.nombre }}" required>
+
+    <label for="version">Versión:</label>
+    <input type="text" id="version" name="version" value="{{ producto.version }}">
+
+    <label for="descripcion">Descripción:</label>
+    <input type="text" id="descripcion" name="descripcion" value="{{ producto.descripcion }}" required>
+
+    <label for="cliente_id">Cliente (opcional):</label>
+    <select id="cliente_id" name="cliente_id">
+        <option value="">Seleccionar cliente</option>
+        {% for cliente in clientes %}
+            <option value="{{ cliente.id }}" {% if cliente.id == producto.cliente_id %}selected{% endif %}>{{ cliente.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

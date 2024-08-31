@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SGTI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+        }
+        .login-container {
+            display: flex;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            width: 70%;
+            height: 70%;
+        }
+        .login-left {
+            flex: 1;
+            background: url('{{ url_for('static', filename='img/it_image.jpg') }}') no-repeat center center;
+            background-size: cover;
+        }
+        .login-right {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-right img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .login-right form {
+            width: 100%;
+        }
+        .login-right form .form-group {
+            margin-bottom: 20px;
+        }
+        .login-right form .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .login-right form .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .login-right form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-right form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left"></div>
+        <div class="login-right">
+            <img src="{{ url_for('static', filename='img/KaiZen2B.png') }}" alt="Logo">
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="form-group">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" id="usuario" name="usuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Ingresar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

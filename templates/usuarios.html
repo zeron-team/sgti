@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Usuarios</h1>
+<a href="{{ url_for('usuario_bp.nuevo_usuario') }}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Nuevo Usuario
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th style="width: 5%; text-align: center;"><i class="fas fa-cog"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.usuario }}</td>
+            <td>{{ usuario.rol }}</td>
+            <td class="acciones" style="text-align: center;">
+                <a href="{{ url_for('usuario_bp.editar_usuario', id=usuario.id) }}" class="btn btn-edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <form action="{{ url_for('usuario_bp.eliminar_usuario', id=usuario.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

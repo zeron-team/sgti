@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Proveedor</h1>
+<form method="POST" action="{{ url_for('proveedor_bp.editar_proveedor', id=proveedor.id) }}">
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre" value="{{ proveedor.nombre }}" required>
+
+    <label for="fecha_contrato">Fecha de Contrato</label>
+    <input type="date" id="fecha_contrato" name="fecha_contrato" value="{{ proveedor.fecha_contrato }}">
+
+    <label for="periodo">Periodo</label>
+    <select id="periodo" name="periodo" required>
+        <option value="semanal" {% if proveedor.periodo == 'semanal' %}selected{% endif %}>Semanal</option>
+        <option value="mensual" {% if proveedor.periodo == 'mensual' %}selected{% endif %}>Mensual</option>
+        <option value="bimestral" {% if proveedor.periodo == 'bimestral' %}selected{% endif %}>Bimestral</option>
+        <option value="trimestral" {% if proveedor.periodo == 'trimestral' %}selected{% endif %}>Trimestral</option>
+        <option value="semestral" {% if proveedor.periodo == 'semestral' %}selected{% endif %}>Semestral</option>
+        <option value="anual" {% if proveedor.periodo == 'anual' %}selected{% endif %}>Anual</option>
+    </select>
+
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Credenciales</h1>
+<table id="credenciales-table" class="display">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Usuario</th>
+            <th>Clave</th>
+            <th>Email</th>
+            <th>Producto</th>
+            <th>IP del Servidor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for credencial in credenciales %}
+        <tr>
+            <td>{{ credencial.cliente.nombre }}</td>
+            <td>{{ credencial.nombre }}</td>
+            <td>{{ credencial.apellido }}</td>
+            <td>{{ credencial.usuario }}</td>
+            <td>{{ credencial.clave }}</td>
+            <td>{{ credencial.email }}</td>
+            <td>{{ credencial.producto }}</td>
+            <td>{{ credencial.cliente.servidor.ip if credencial.cliente.servidor else 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#credenciales-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+            },
+            "paging": true,
+            "searching": true,
+            "ordering": true
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Servidores</h1>
+<a href="{{ url_for('servidor_bp.nuevo_servidor') }}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Nuevo Servidor
+</a>
+<table id="servidores-table" class="display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>IP</th>
+            <th>CPU</th>
+            <th>RAM</th>
+            <th>Disco</th>
+            <th>Sistema Operativo</th>
+            <th>Proveedor</th>
+            <th>Clientes</th>
+            <th style="width: 5%; text-align: center;"><i class="fas fa-cog"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for servidor in servidores %}
+        <tr>
+            <td>{{ servidor.id }}</td>
+            <td>{{ servidor.nombre }}</td>
+            <td>{{ servidor.ip }}</td>
+            <td>{{ servidor.cpu }}</td>
+            <td>{{ servidor.ram }}</td>
+            <td>{{ servidor.disco }}</td>
+            <td>{{ servidor.tipo_os.nombre }} {{ servidor.tipo_os.version }}</td>
+            <td>{{ servidor.proveedor.nombre }}</td>
+            <td class="clientes">
+                <div class="cliente-list">
+                    {% for cliente in servidor.clientes %}
+                        <a href="{{ url_for('cliente_bp.ver_cliente', id=cliente.id) }}" class="btn btn-client">{{ cliente.nombre }}</a>
+                    {% endfor %}
+                </div>
+            </td>
+            <td class="acciones">
+                <a href="{{ url_for('servidor_bp.editar_servidor', id=servidor.id) }}" class="btn btn-edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <form action="{{ url_for('servidor_bp.eliminar_servidor', id=servidor.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

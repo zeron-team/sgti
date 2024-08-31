@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Nuevo Proveedor</h1>
+<form method="POST" action="{{ url_for('proveedor_bp.nuevo_proveedor') }}">
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="fecha_contrato">Fecha de Contrato</label>
+    <input type="date" id="fecha_contrato" name="fecha_contrato">
+
+    <label for="periodo">Periodo</label>
+    <select id="periodo" name="periodo" required>
+        <option value="semanal">Semanal</option>
+        <option value="mensual">Mensual</option>
+        <option value="bimestral">Bimestral</option>
+        <option value="trimestral">Trimestral</option>
+        <option value="semestral">Semestral</option>
+        <option value="anual">Anual</option>
+    </select>
+
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

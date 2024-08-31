@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Detalles del Cliente</h1>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="inicio-tab" data-bs-toggle="tab" data-bs-target="#inicio" type="button" role="tab" aria-controls="inicio" aria-selected="true">Inicio</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button" role="tab" aria-controls="productos" aria-selected="false">Productos</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="licencias-tab" data-bs-toggle="tab" data-bs-target="#licencias" type="button" role="tab" aria-controls="licencias" aria-selected="false">Licencias</button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="inicio" role="tabpanel" aria-labelledby="inicio-tab">
+        <h2>Información del Cliente</h2>
+        <p>Nombre: {{ cliente.nombre }}</p>
+        <p>Contacto: {{ cliente.contacto }}</p>
+        <p>Email: {{ cliente.email }}</p>
+    </div>
+    <div class="tab-pane fade" id="productos" role="tabpanel" aria-labelledby="productos-tab">
+        <h2>Productos del Cliente</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Versión</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in cliente.productos %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.version }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="licencias" role="tabpanel" aria-labelledby="licencias-tab">
+        <h2>Licencias del Cliente</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Puerto</th>
+                    <th>Usuario</th>
+                    <th>Clave</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for licencia in cliente.licencias %}
+                <tr>
+                    <td>{{ licencia.id }}</td>
+                    <td>{{ licencia.producto }}</td>
+                    <td>{{ licencia.puerto }}</td>
+                    <td>{{ licencia.usuario }}</td>
+                    <td>{{ licencia.clave }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

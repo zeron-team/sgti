@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Nuevo Servidor</h1>
+<form action="{{ url_for('servidor_bp.nuevo_servidor') }}" method="POST" class="form-horizontal">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="ip" class="form-label">IP:</label>
+            <input type="text" id="ip" name="ip" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label for="proveedor_id" class="form-label">Proveedor:</label>
+            <select id="proveedor_id" name="proveedor_id" class="form-select" required>
+                {% for proveedor in proveedores %}
+                <option value="{{ proveedor.id }}">{{ proveedor.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <h3>Características</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="cpu" class="form-label">CPU:</label>
+            <input type="text" id="cpu" name="cpu" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label for="ram" class="form-label">RAM:</label>
+            <input type="text" id="ram" name="ram" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label for="disco" class="form-label">Disco:</label>
+            <input type="text" id="disco" name="disco" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label for="tipo_os_id" class="form-label">Sistema Operativo:</label>
+            <select id="tipo_os_id" name="tipo_os_id" class="form-select" required>
+                {% for tipo_os in tipos_os %}
+                <option value="{{ tipo_os.id }}">{{ tipo_os.nombre }} - {{ tipo_os.version }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Agregar Servidor</button>
+</form>
+{% endblock %}
+

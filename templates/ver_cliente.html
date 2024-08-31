@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Detalle del Cliente: {{ cliente.nombre }}</h1>
+    <div class="t-container" id="t-principal">
+        <ul class="t-tabs">
+            <li class="t-tab">Información</li>
+            <li class="t-tab">Productos</li>
+            <li class="t-tab">Licencias</li>
+            <li class="t-tab">Credenciales</li>
+        </ul>
+        <ul class="t-contents">
+            <li class="t-content">
+                <h2>Información del Cliente</h2>
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ cliente.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contacto</th>
+                        <td>{{ cliente.contacto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ cliente.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Servidor</th>
+                        <td>{{ cliente.servidor.nombre if cliente.servidor else 'N/A' }}</td>
+                    </tr>
+                </table>
+            </li>
+            <li class="t-content">
+                <h2>Productos</h2>
+                {% if cliente_productos %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Versión</th>
+                                <th>Cantidad</th>
+                                <th>Fecha de compra</th>
+                                <th>Fecha de vencimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for producto in cliente_productos %}
+                            <tr>
+                                <td>{{ producto.producto.nombre }}</td>
+                                <td>{{ producto.version }}</td>
+                                <td>{{ producto.cantidad }}</td>
+                                <td>{{ producto.fecha_compra }}</td>
+                                <td>{{ producto.fecha_vencimiento }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No hay productos asociados a este cliente.</p>
+                {% endif %}
+            </li>
+            <li class="t-content">
+                <h2>Licencias</h2>
+                {% if cliente_licencias %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Puerto</th>
+                                <th>Usuario</th>
+                                <th>Clave</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for licencia in cliente_licencias %}
+                            <tr>
+                                <td>{{ licencia.producto }}</td>
+                                <td>{{ licencia.puerto }}</td>
+                                <td>{{ licencia.usuario }}</td>
+                                <td>{{ licencia.clave }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No hay licencias asociadas a este cliente.</p>
+                {% endif %}
+            </li>
+            <li class="t-content">
+                <h2>Credenciales</h2>
+                {% if cliente_credenciales %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Usuario</th>
+                                <th>Clave</th>
+                                <th>Email</th>
+                                <th>Producto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for credencial in cliente_credenciales %}
+                            <tr>
+                                <td>{{ credencial.nombre }}</td>
+                                <td>{{ credencial.apellido }}</td>
+                                <td>{{ credencial.usuario }}</td>
+                                <td>{{ credencial.clave }}</td>
+                                <td>{{ credencial.email }}</td>
+                                <td>{{ credencial.producto }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No hay credenciales asociadas a este cliente.</p>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

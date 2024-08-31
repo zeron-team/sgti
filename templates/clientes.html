@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Clientes</h1>
+<a href="{{ url_for('cliente_bp.nuevo_cliente') }}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Nuevo Cliente
+</a>
+<a href="{{ url_for('cliente_bp.listar_credenciales') }}" class="btn btn-secondary" style="float: right;">
+    <i class="fas fa-user"></i> Listar Credenciales
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Contacto</th>
+            <th>Email</th>
+            <th>Productos</th>
+            <th style="width: 3%;"><i class="fas fa-cog"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.contacto }}</td>
+            <td>{{ cliente.email }}</td>
+            <td class="productos">
+                {% for cliente_producto in cliente.productos %}
+                    <span class="btn btn-product">{{ cliente_producto.producto.nombre }}</span>
+                {% endfor %}
+            </td>
+            <td class="acciones">
+                <a href="{{ url_for('cliente_bp.ver_cliente', id=cliente.id) }}" class="btn btn-view">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="{{ url_for('cliente_bp.editar_cliente', id=cliente.id) }}" class="btn btn-edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <form action="{{ url_for('cliente_bp.eliminar_cliente', id=cliente.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

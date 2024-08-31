@@ -1,0 +1,54 @@
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 265-703-871
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 265-703-871
+127.0.0.1 - - [25/Jul/2024 16:01:33] "[32mGET / HTTP/1.1[0m" 302 -
+127.0.0.1 - - [25/Jul/2024 16:01:33] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2024 16:01:34] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:01:34] "[36mGET /static/img/KaiZen2B.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:02:22] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2024 16:02:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:02:22] "[36mGET /static/img/KaiZen2B.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:02:24] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2024 16:02:24] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:02:24] "[36mGET /static/img/KaiZen2B.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:02:26] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2024 16:02:26] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:02:27] "[36mGET /static/img/KaiZen2B.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:03:45] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [25/Jul/2024 16:03:45] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [25/Jul/2024 16:03:46] "[36mGET /static/img/KaiZen2B.png HTTP/1.1[0m" 304 -
+ * Detected change in '/proyectos/sgti/routes/tipo_os_routes.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 265-703-871
+ * Detected change in '/proyectos/sgti/models.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 265-703-871
+ * Detected change in '/proyectos/sgti/models.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 265-703-871
+ * Detected change in '/proyectos/sgti/routes/cliente_routes.py', reloading
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/proyectos/sgti/app.py", line 5, in <module>
+    from routes.cliente_routes import cliente_bp
+  File "/proyectos/sgti/routes/cliente_routes.py", line 2, in <module>
+    from models import db, Cliente, Producto, ClienteProducto, ClienteLicencia, ClienteCredencial, Servidor
+ImportError: cannot import name 'ClienteCredencial' from 'models' (/proyectos/sgti/models.py)

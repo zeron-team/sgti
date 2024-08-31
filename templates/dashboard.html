@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <div class="kpi-container">
+        <div class="kpi-box kpi-clients">
+            <i class="fas fa-users fa-2x"></i>
+            <div class="kpi-content">
+                <h3>Clientes</h3>
+                <p>{{ clientes|length }}</p>
+            </div>
+        </div>
+        <div class="kpi-box kpi-providers">
+            <i class="fas fa-truck fa-2x"></i>
+            <div class="kpi-content">
+                <h3>Proveedores</h3>
+                <p>{{ proveedores|length }}</p>
+            </div>
+        </div>
+        <div class="kpi-box kpi-products">
+            <i class="fas fa-box fa-2x"></i>
+            <div class="kpi-content">
+                <h3>Productos</h3>
+                <p>{{ productos|length }}</p>
+            </div>
+        </div>
+        <div class="kpi-box kpi-servers">
+            <i class="fas fa-server fa-2x"></i>
+            <div class="kpi-content">
+                <h3>Servidores</h3>
+                <p>{{ servidores|length }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="t-container">
+        <ul class="t-tabs">
+            <li class="t-tab">Inicio</li>
+            <li class="t-tab">Productos</li>
+            <li class="t-tab">Proveedores</li>
+            <li class="t-tab">Clientes</li>
+        </ul>
+
+        <div class="t-content">
+            <h2>Gráficos</h2>
+            <div class="charts-container">
+                <div class="chart-box">
+                    <canvas id="vencimientosChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="servidoresChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="clientesChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="productosChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="t-content">
+            <h2>Productos por vencer esta semana</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Versión</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th style="width: 5%; text-align: center;">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in this_week %}
+                        <tr style="background-color: #ffcccc;">
+                            <td>
+                                <a href="{{ url_for('cliente_bp.ver_cliente', id=cp.cliente.id) }}" class="btn btn-client">{{ cp.cliente.nombre }}</a>
+                            </td>
+                            <td>{{ cp.producto.nombre }}</td>
+                            <td>{{ cp.version }}</td>
+                            <td>{{ cp.cantidad }}</td>
+                            <td>{{ cp.fecha_vencimiento }}</td>
+                            <td style="text-align: center;"><i class="fas fa-exclamation-circle" style="color: red;"></i></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Productos por vencer este mes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Versión</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th style="width: 5%; text-align: center;">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in this_month %}
+                        <tr style="background-color: #ffffcc;">
+                            <td>
+                                <a href="{{ url_for('cliente_bp.ver_cliente', id=cp.cliente.id) }}" class="btn btn-client">{{ cp.cliente.nombre }}</a>
+                            </td>
+                            <td>{{ cp.producto.nombre }}</td>
+                            <td>{{ cp.version }}</td>
+                            <td>{{ cp.cantidad }}</td>
+                            <td>{{ cp.fecha_vencimiento }}</td>
+                            <td style="text-align: center;"><i class="fas fa-exclamation-triangle" style="color: orange;"></i></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Productos por vencer durante el año</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Versión</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th style="width: 5%; text-align: center;">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in more_than_one_month %}
+                        <tr style="background-color: #ccffcc;">
+                            <td>
+                                <a href="{{ url_for('cliente_bp.ver_cliente', id=cp.cliente.id) }}" class="btn btn-client">{{ cp.cliente.nombre }}</a>
+                            </td>
+                            <td>{{ cp.producto.nombre }}</td>
+                            <td>{{ cp.version }}</td>
+                            <td>{{ cp.cantidad }}</td>
+                            <td>{{ cp.fecha_vencimiento }}</td>
+                            <td style="text-align: center;"><i class="fas fa-check-circle" style="color: green;"></i></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="t-content">
+            <!-- Contenido para Proveedores -->
+        </div>
+
+        <div class="t-content">
+            <!-- Contenido para Clientes -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var vencimientosCtx = document.getElementById('vencimientosChart').getContext('2d');
+            var servidoresCtx = document.getElementById('servidoresChart').getContext('2d');
+            var clientesCtx = document.getElementById('clientesChart').getContext('2d');
+            var productosCtx = document.getElementById('productosChart').getContext('2d');
+
+            var vencimientosChart = new Chart(vencimientosCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Vencen esta semana', 'Vencen este mes', 'Vencen durante el año'],
+                    datasets: [{
+                        data: [{{ this_week|length }}, {{ this_month|length }}, {{ more_than_one_month|length }}],
+                        backgroundColor: ['#ff6384', '#ffcd56', '#36a2eb'],
+                    }]
+                },
+            });
+
+            var servidoresChart = new Chart(servidoresCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Servidores'],
+                    datasets: [{
+                        label: 'Cantidad de Servidores',
+                        data: [{{ servidores|length }}],
+                        backgroundColor: '#f44336',
+                    }]
+                },
+            });
+
+            var clientesChart = new Chart(clientesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Clientes'],
+                    datasets: [{
+                        label: 'Cantidad de Clientes',
+                        data: [{{ clientes|length }}],
+                        backgroundColor: '#4caf50',
+                    }]
+                },
+            });
+
+            var productosChart = new Chart(productosCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Productos'],
+                    datasets: [{
+                        label: 'Cantidad de Productos',
+                        data: [{{ productos|length }}],
+                        backgroundColor: '#2196f3',
+                    }]
+                },
+            });
+        });
+    </script>
+{% endblock %}

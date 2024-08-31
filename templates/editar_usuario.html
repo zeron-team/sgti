@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Usuario</h1>
+<form action="{{ url_for('usuario_bp.editar_usuario', id=usuario.id) }}" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" value="{{ usuario.apellido }}" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="{{ usuario.email }}" required>
+
+    <label for="usuario">Usuario:</label>
+    <input type="text" id="usuario" name="usuario" value="{{ usuario.usuario }}" required>
+
+    <label for="rol">Rol:</label>
+    <select id="rol" name="rol" required>
+        <option value="Admin" {% if usuario.rol == 'Admin' %}selected{% endif %}>Admin</option>
+        <option value="Usuario" {% if usuario.rol == 'Usuario' %}selected{% endif %}>Usuario</option>
+    </select>
+
+    <label for="password">Contraseña (déjalo en blanco si no deseas cambiarla):</label>
+    <input type="password" id="password" name="password">
+
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

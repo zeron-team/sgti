@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Tipos de OS</h1>
+<a href="{{ url_for('tipo_os_bp.nuevo_tipo_os') }}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Nuevo Tipo de OS
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Versión</th>
+            <th>Creado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tipo_os in tipos_os %}
+        <tr>
+            <td>{{ tipo_os.id }}</td>
+            <td>{{ tipo_os.nombre }}</td>
+            <td>{{ tipo_os.version }}</td>
+            <td>{{ tipo_os.created_at }}</td>
+            <td>
+                <form action="{{ url_for('tipo_os_bp.eliminar_tipo_os', id=tipo_os.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-delete">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
